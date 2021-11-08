@@ -19,4 +19,43 @@ export class ProductStore {
            throw new Error(`There was an error ${error}`)
         }
     }
+
+    async show(id: string): Promise<Product> {
+        try{
+            const sql = 'SELECT * FROM products WHERE id=($1)'
+            const conn = await client.connect()
+            const result = await conn.query(sql, [id])
+            conn.release()
+            return result.rows[0]
+        } catch(error) {
+            throw new Error(`Could not find the product${Error}`)
+        }
+    }
+
+    async create(p: Product): Promise<Product> {
+        try{
+            const sql = 'INSERT INTO products (name, price) VALUES($1, $2) RETURNING *'
+            // @ts-ignore
+            const conn = await client.connect()
+            const result = await conn.query(sql, [p.name, p.price])
+            const product = result.rows[0]
+            conn.release()
+            return product
+        } catch(error){
+            throw new Error(`Could not create a new product ${error}`)
+        }
+    }
+
+    async delete(id: string): Promise<Product> {
+        try {
+            const sql = 'DELETE FROM products WHERE id=($1)'
+            const conn = await client.connect()
+            const result = await conn.query(sql, [id])
+            const product = result.rows[0]
+            conn.release()
+            return product
+        } catch(error){
+            throw new Error(`Could not delete book ${error}`)
+        }
+    }
 }
