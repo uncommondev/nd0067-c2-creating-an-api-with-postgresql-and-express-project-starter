@@ -12,7 +12,7 @@ POSTGRES_PASSWORD,
 ENV
 } = process.env
 
-let client
+let client: Pool
 console.log(`Current environment is: ${ENV}`)
 
 if (ENV === 'dev'){
