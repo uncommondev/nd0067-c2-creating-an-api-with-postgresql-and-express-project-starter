@@ -8,20 +8,17 @@ POSTGRES_HOST,
 POSTGRES_DB,
 POSTGRES_TEST_DB,
 POSTGRES_USER,
+POSTGRES_TEST_USER,
 POSTGRES_PASSWORD,
+POSTGRES_TEST_PASSWORD,
 ENV
 } = process.env
 
-let client: Pool = ENV === 'dev' ? new Pool({
+let client: Pool = new Pool({
         host: POSTGRES_HOST,
-        database: POSTGRES_DB,
-        user: POSTGRES_USER,
-        password: POSTGRES_PASSWORD
-    }) : new Pool({
-        host: POSTGRES_HOST,
-        database: POSTGRES_TEST_DB,
-        user: POSTGRES_USER,
-        password: POSTGRES_PASSWORD
+        database: ENV === "dev" ? POSTGRES_DB : POSTGRES_TEST_DB,
+        user: ENV === "dev" ? POSTGRES_USER : POSTGRES_TEST_USER,
+        password: ENV === "dev" ? POSTGRES_PASSWORD : POSTGRES_TEST_PASSWORD
     })
 
 console.log(`Current environment is: ${ENV}`)

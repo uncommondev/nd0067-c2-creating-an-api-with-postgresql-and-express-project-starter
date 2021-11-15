@@ -11,7 +11,7 @@ export class ProductStore {
         try {
             // @ts-ignores
             const conn = await client.connect()
-            const sql = 'SELECT * FROM products'
+            const sql = 'SELECT * FROM "products"'
             const result = await conn.query(sql)
             conn.release()
             return result.rows
@@ -22,7 +22,7 @@ export class ProductStore {
 
     async show(id: string): Promise<Product> {
         try{
-            const sql = 'SELECT * FROM products WHERE id=($1)'
+            const sql = 'SELECT * FROM "products" WHERE id=($1)'
             const conn = await client.connect()
             const result = await conn.query(sql, [id])
             conn.release()
@@ -34,7 +34,7 @@ export class ProductStore {
 
     async create(p: Product): Promise<Product> {
         try{
-            const sql = 'INSERT INTO products (name, price) VALUES($1, $2) RETURNING *'
+            const sql = 'INSERT INTO "products" (name, price) VALUES($1, $2) RETURNING *'
             // @ts-ignore
             const conn = await client.connect()
             const result = await conn.query(sql, [p.name, p.price])
@@ -48,7 +48,7 @@ export class ProductStore {
 
     async delete(id: string): Promise<Product> {
         try {
-            const sql = 'DELETE FROM products WHERE id=($1)'
+            const sql = 'DELETE FROM "products" WHERE id=($1)'
             const conn = await client.connect()
             const result = await conn.query(sql, [id])
             const product = result.rows[0]
