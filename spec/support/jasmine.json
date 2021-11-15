@@ -4,7 +4,7 @@
     "../**/tests/**/*[sS]pec.ts"
   ],
   "helpers": [
-    "helpers/**/*.ts"
+    "../**/tests/helpers/**/*.ts"
   ],
   "reporters": [
     {
