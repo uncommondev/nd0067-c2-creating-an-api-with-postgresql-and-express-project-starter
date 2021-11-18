@@ -2,8 +2,8 @@ import client from "../database"
 
 export type User = {
     //id: number;
-    firstName: string;
-    lastName: string;
+    firstname: string;
+    lastname: string;
     password: string;
 }
 
@@ -35,26 +35,27 @@ export class UserStore {
 
     async create(u: User): Promise<User> {
         try{
-            const sql = 'INSERT INTO users (firstName, lastName, password) VALUES($1, $2, $3) RETURNING *'
+            const sql = 'INSERT INTO users (firstname, lastname, password) VALUES($1, $2, $3) RETURNING *'
             // @ts-ignore
             const conn = await client.connect()
-            const result = await conn.query(sql, [u.firstName, u.lastName, u.password])
-            const User = result.rows[0]
+            const result = await conn.query(sql, [u.firstname, u.lastname, u.password])
+            const user = result.rows[0]
             conn.release()
-            return User
+            return user
         } catch(error){
             throw new Error(`Could not create a new User ${error}`)
         }
     }
 
-    async delete(id: string): Promise<User> {
+    async delete(id: string) { //: Promise<User>
         try {
             const sql = 'DELETE FROM users WHERE id=($1)'
             const conn = await client.connect()
             const result = await conn.query(sql, [id])
-            const User = result.rows[0]
+            const user = result.rows[0]
             conn.release()
-            return User
+            return
+            //return user
         } catch(error){
             throw new Error(`Could not delete book ${error}`)
         }

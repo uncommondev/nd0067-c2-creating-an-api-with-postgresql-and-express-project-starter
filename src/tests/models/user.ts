@@ -1,8 +1,8 @@
-import { Product, ProductStore } from './../../models/product';
+import { User, UserStore } from './../../models/user';
 
-const store = new ProductStore()
+const store = new UserStore()
 
-describe("Product Model", () => {
+describe("User Model", () => {
   it('Should have an index method', () => {
     expect(store.index).toBeDefined();
   });
@@ -23,43 +23,46 @@ describe("Product Model", () => {
     expect(store.delete).toBeDefined();
   });
 
-  it('Create method should add a product', async () => {
+  it('Create method should add a user', async () => {
     const result = await store.create({
-      name: "Apprenticeship Patterns",
-      price: 19.99,
+      firstname: "John",
+      lastname: "Smith",
+      password: "Password123"
     });
     expect(result).toEqual({
        // @ts-ignores
       id: 1,
-      name: "Apprenticeship Patterns",
-      price: 19.99
+      firstname: "John",
+      lastname: "Smith",
+      password: "Password123"
     });
   });
 
-  it('Index method should return a list of products', async () => {
+  it('Index method should return a list of users', async () => {
     const result = await store.index();
     expect(result).toEqual([{
        // @ts-ignores
-      id: 1,
-      name: "Apprenticeship Patterns",
-      price: 19.99
+       id: 1,
+       firstname: "John",
+       lastname: "Smith",
+       password: "Password123"
     }]);
   });
 
-  it('Show method should return the correct product', async () => {
+  it('Show method should return the correct user', async () => {
     const result = await store.show("1");
     expect(result).toEqual({
        // @ts-ignores
-      id: 1,
-      name: "Apprenticeship Patterns",
-      price: 19.99
+       id: 1,
+       firstname: "John",
+       lastname: "Smith",
+       password: "Password123"
     });
   });
 
-  it('Delete method should remove the product', async () => {
-    store.delete("1");
+  it('Delete method should remove the user', async () => {
+    await store.delete("1")
     const result = await store.index()
-
     expect(result).toEqual([]);
   });
 });

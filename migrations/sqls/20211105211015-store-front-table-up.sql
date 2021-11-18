@@ -8,15 +8,15 @@ CREATE TABLE products (
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    firstName VARCHAR(50),
-    lastName VARCHAR(50),
+    firstname VARCHAR(50),
+    lastname VARCHAR(50),
     password VARCHAR(100)
 );
 
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
-    product_id bigint REFERENCES products(id),
+    product_id int REFERENCES products(id),
     quantity integer,
-    user_id bigint REFERENCES users(id),
+    user_id int REFERENCES users(id),
     status bool
 );

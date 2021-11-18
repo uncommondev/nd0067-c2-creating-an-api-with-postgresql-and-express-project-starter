@@ -2,7 +2,7 @@ import client from "../database"
 
 export type Order = {
     //id: number,
-    product_id: [number],
+    product_id: number,
     quantity: number,
     user_id: number,
     status: boolean
@@ -36,7 +36,7 @@ export class OrderStore {
 
     async create(o: Order): Promise<Order> {
         try{
-            const sql = 'INSERT INTO orders (name, price) VALUES($1, $2, $3, $4) RETURNING *'
+            const sql = 'INSERT INTO orders (product_id, quantity, user_id, status) VALUES($1, $2, $3, $4) RETURNING *'
             // @ts-ignore
             const conn = await client.connect()
             const result = await conn.query(sql, [o.product_id, o.quantity, o.user_id, o.status])
