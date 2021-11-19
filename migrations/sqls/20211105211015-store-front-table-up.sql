@@ -19,7 +19,7 @@ CREATE TABLE orders (
     status bool
 );
 
-CREATE TABLE orders_products (
+CREATE TABLE order_products (
     id SERIAL PRIMARY KEY,
     order_id int REFERENCES orders(id),
     product_id int REFERENCES products(id),

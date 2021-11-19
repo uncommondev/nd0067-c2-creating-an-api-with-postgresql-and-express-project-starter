@@ -1,2 +1,2 @@
 /* Replace with your SQL commands */
-DROP table "orders", "products", "users", "orders_products";
+DROP table "orders", "products", "users", "order_products";

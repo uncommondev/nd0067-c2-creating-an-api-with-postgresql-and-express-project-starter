@@ -29,6 +29,20 @@ const create = async (req: Request, res: Response) => {
     }
 }
 
+const addProduct = async (_req: Request, res: Response) => {
+    const orderId: string = _req.params.id
+    const productId: string = _req.body.productId
+    const quantity: number = parseInt(_req.body.quantity)
+  
+    try {
+      const addedProduct = await store.addProduct(quantity, orderId, productId)
+      res.json(addedProduct)
+    } catch(err) {
+      res.status(400)
+      res.json(err)
+    }
+} 
+
 const destroy = async (req: Request, res: Response) => {
     const deleted = await store.delete(req.body.id)
     res.json(deleted)
@@ -37,7 +51,8 @@ const destroy = async (req: Request, res: Response) => {
 const orderRoutes = (app: express.Application) => {
     app.get('/orders', index)
     app.get('/orders/:id', show)
-    app.get('/orders', create)
+    app.post('/orders', create)
+    app.post('/order/:id/products', addProduct)
     app.get('/orders', destroy)
 }
 
