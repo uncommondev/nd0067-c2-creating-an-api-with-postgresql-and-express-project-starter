@@ -16,12 +16,29 @@ const show = async (req: Request, res: Response) => {
 const create = async (req: Request, res: Response) => {
     try {
         const user: User = {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
             password: req.body.password
         }
         const newUser = await store.create(user)
         res.json(newUser)
+    } catch (error) {
+        res.status(400)
+        res.json(error)
+    }
+}
+
+const update = async (req: Request, res: Response) => {
+    try {
+        const id = req.body.id
+        const user: User = {
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            password: req.body.password
+        }
+        const updatedUser = await store.update(user, id)
+        res.json(updatedUser)
+        
     } catch (error) {
         res.status(400)
         res.json(error)
@@ -36,8 +53,9 @@ const destroy = async (req: Request, res: Response) => {
 const userRoutes = (app: express.Application) => {
     app.get('/users', index)
     app.get('/users/:id', show)
-    app.get('/users', create)
-    app.get('/users', destroy)
+    app.post('/users', create)
+    app.put('/users', update)
+    app.delete('/users', destroy)
 }
 
 export default userRoutes

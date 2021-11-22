@@ -47,6 +47,20 @@ export class UserStore {
         }
     }
 
+    async update(u: User, id: string): Promise<User> {
+        try{
+            const sql = 'UPDATE users SET firstname = $1, lastname = $2, password = $3 WHERE id = $4'
+            // @ts-ignore
+            const conn = await client.connect()
+            const result = await conn.query(sql, [u.firstname, u.lastname, u.password, id])
+            const user = result.rows[0]
+            conn.release()
+            return user
+        } catch(error){
+            throw new Error(`Could not update user ${error}`)
+        }
+    }
+
     async delete(id: string) { //: Promise<User>
         try {
             const sql = 'DELETE FROM users WHERE id=($1)'
