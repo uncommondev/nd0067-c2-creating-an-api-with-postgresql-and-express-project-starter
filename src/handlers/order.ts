@@ -4,14 +4,25 @@ import { Order, OrderProduct, OrderStore } from "../models/order";
 const store = new OrderStore()
 
 const index = async (req: Request, res: Response) => {
-    const orders = await store.index()
-    res.json(orders)
+    try {
+        const orders = await store.index()
+        res.json(orders)
+    } catch (error) {
+        res.status(400)
+        res.json(error)
+    }
 }
 
 const show = async (req: Request, res: Response) => {
-    const order = await store.show(req.body.id)
-    res.json(order)
+    try {
+        const orders = await store.show(req.body.id)
+        res.json(orders)
+    } catch (error) {
+        res.status(400)
+        res.json(error)
+    }
 }
+
 
 const create = async (req: Request, res: Response) => {
     try {

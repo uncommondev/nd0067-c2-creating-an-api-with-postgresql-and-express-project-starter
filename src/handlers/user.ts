@@ -4,14 +4,25 @@ import express, {Request, Response} from "express";
 const store = new UserStore()
 
 const index = async (req: Request, res: Response) => {
-    const users = await store.index()
-    res.json(users)
+    try {
+        const users = await store.index()
+        res.json(users)
+    } catch (error) {
+        res.status(400)
+        res.json(error)
+    }
 }
 
 const show = async (req: Request, res: Response) => {
-    const users = await store.show(req.body.id)
-    res.json(users)
+    try {
+        const users = await store.show(req.body.id)
+        res.json(users)
+    } catch (error) {
+        res.status(400)
+        res.json(error)
+    }
 }
+
 
 const create = async (req: Request, res: Response) => {
     try {
