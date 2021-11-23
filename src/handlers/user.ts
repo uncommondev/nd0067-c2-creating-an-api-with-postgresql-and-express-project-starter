@@ -10,6 +10,8 @@ const index = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(400)
         res.json(error)
+        console.log(`Index Error`)
+        console.log(error)
     }
 }
 
@@ -20,6 +22,8 @@ const show = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(400)
         res.json(error)
+        console.log(`Show Error`)
+        console.log(error)
     }
 }
 
