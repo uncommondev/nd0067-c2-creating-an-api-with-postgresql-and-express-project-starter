@@ -35,7 +35,7 @@ export class OrderStore {
             conn.release()
             return result.rows[0]
         } catch(error) {
-            throw new Error(`Could not find the order${Error}`)
+            throw new Error(`Could not find the order ${Error}`)
         }
     }
 
