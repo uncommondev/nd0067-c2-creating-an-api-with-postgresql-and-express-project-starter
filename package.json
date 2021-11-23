@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node dist/server.js",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess 'node ./dist/server.js'",
-    "test": "ENV=test && db-migrate --env test reset && db-migrate --env test up && jasmine-ts && db-migrate --env test reset",
+    "test": "ENV=test && db-migrate --en~v test reset && db-migrate --env test up && jasmine-ts && db-migrate --env test reset",
+    "test-dev": "ENV=dev && db-migrate --env dev reset && db-migrate --env dev up && jasmine-ts && db-migrate --env dev reset",
     "tsc": "tsc"
   },
   "author": "Toby A",
@@ -25,6 +26,8 @@
   },
   "devDependencies": {
     "@types/jasmine": "^3.10.2",
+    "@types/supertest": "^2.0.11",
+    "cross-env": "^7.0.3",
     "jasmine": "^3.6.4",
     "jasmine-spec-reporter": "^6.0.0",
     "jasmine-ts": "^0.3.0",
