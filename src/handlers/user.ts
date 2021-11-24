@@ -17,7 +17,7 @@ const index = async (req: Request, res: Response) => {
 
 const show = async (req: Request, res: Response) => {
     try {
-        const users = await store.show(req.body.id)
+        const users = await store.show(req.params.id)
         res.json(users)
     } catch (error) {
         res.status(400)
@@ -61,8 +61,15 @@ const update = async (req: Request, res: Response) => {
 }
 
 const destroy = async (req: Request, res: Response) => {
-    const deleted = await store.delete(req.body.id)
-    res.json(deleted)
+    try {
+        const deleted = await store.delete(req.body.id)
+        res.status(200)
+        res.json(deleted)
+    } catch(error) {
+        res.status(400)
+        res.json(error)
+        console.log(error)
+    }
 }
 
 const userRoutes = (app: express.Application) => {

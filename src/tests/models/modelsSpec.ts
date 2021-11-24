@@ -6,7 +6,7 @@ const oStore = new OrderStore()
 const pStore = new ProductStore()
 const uStore = new UserStore()
 
-describe("Check Model Functions Exist", () => {
+xdescribe("Check Model Functions Exist", () => {
     describe("User Model", () => {
         it('Should have an index method', () => {
           expect(uStore.index).toBeDefined();
@@ -76,7 +76,7 @@ describe("Check Model Functions Exist", () => {
     }) 
 })
 
-describe("Check the CRUD functions for User, Product and Order Models", () => {
+xdescribe("Check the CRUD functions for User, Product and Order Models", () => {
     describe("CREATE", () => {
         it('Create method should add a user', async () => {
             const result = await uStore.create({
