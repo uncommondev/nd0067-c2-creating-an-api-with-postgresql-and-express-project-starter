@@ -56,7 +56,7 @@ export class OrderStore {
     // Update code - will need the ID for this (wonder if the code will also need to be updated)
     async update(o: Order, id: string): Promise<Order> {
         try{
-            const sql = 'UPDATE orders SET user_id = $1, status = $2 WHERE id = $3'
+            const sql = 'UPDATE orders SET user_id = $1, status = $2 WHERE id = $3 RETURNING *'
             // @ts-ignore
             const conn = await client.connect()
             const result = await conn.query(sql, [o.user_id, o.status, id])
@@ -71,14 +71,13 @@ export class OrderStore {
     
     async delete(id: string): Promise<Order> {
         try {
-            const sql = 'DELETE FROM orders WHERE id=($1)'
+            const sql = 'DELETE FROM orders WHERE id = $1 RETURNING *'
             const conn = await client.connect()
             const result = await conn.query(sql, [id])
-            const order = result.rows[0]
             conn.release()
-            return order
+            return result.rows[0]
         } catch(error){
-            throw new Error(`Could not delete book ${error}`)
+            throw new Error(`Could not delete order ${error}`)
         }
     }
 
@@ -111,15 +110,14 @@ export class OrderStore {
         }
     }
     
-      async deleteProduct(id: string) {
+      async deleteProduct(id: string): Promise<OrderProduct> {
         try {
-          const sql = 'DELETE FROM order_products WHERE id=($1)'
+          const sql = 'DELETE FROM order_products WHERE id= $1 RETURNING *'
           //@ts-ignore
           const conn = await client.connect()
           const result = await conn.query(sql, [id])
-          const order = result.rows[0]
           conn.release()
-          return order
+          return result.rows[0]
         } catch (err) {
           throw new Error(`Could not delete order_product with ID ${id}: ${err}`)
         }

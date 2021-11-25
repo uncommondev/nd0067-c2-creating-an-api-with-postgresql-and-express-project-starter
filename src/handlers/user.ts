@@ -62,13 +62,12 @@ const update = async (req: Request, res: Response) => {
 
 const destroy = async (req: Request, res: Response) => {
     try {
-        const deleted = await store.delete(req.body.id)
+        const deleted = await store.delete(req.params.id)
         res.status(200)
         res.json(deleted)
     } catch(error) {
         res.status(400)
         res.json(error)
-        console.log(error)
     }
 }
 
@@ -77,7 +76,7 @@ const userRoutes = (app: express.Application) => {
     app.get('/users/:id', show)
     app.post('/users', create)
     app.put('/users', update)
-    app.delete('/users', destroy)
+    app.delete('/users/:id', destroy)
 }
 
 export default userRoutes

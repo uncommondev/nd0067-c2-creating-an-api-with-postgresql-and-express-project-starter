@@ -86,33 +86,25 @@ describe("Order Handler Tests", () => {
 
     // DELETE - order_products
     it("Should delete a product to an order", async () => {
-        const response = await request.delete("/order/1/products").send({
-            id: 1
-        }).set('Content-type', 'application/json')
+        const response = await request.delete("/order/1/products").set('Content-type', 'application/json')
         expect(response.status).toEqual(200)
     })
 
     // DELETE - Order
     it("Should delete the order", async () => {
-        const response = await request.delete("/orders").send({
-            id: 1
-        }).set('Content-type', 'application/json')
+        const response = await request.delete("/orders/1").set('Content-type', 'application/json')
         expect(response.status).toEqual(200)
     })
 
     // DELETE - User
     it("Should delete the user", async () => {
-        const response = await request.delete("/users").send({
-            id: 1
-        }).set('Content-type', 'application/json')
+        const response = await request.delete("/users/1").set('Content-type', 'application/json')
         expect(response.status).toEqual(200)
     })
 
     // DELETE - Product
     it("Should delete the product", async () => {
-        const response = await request.delete("/products").send({
-            id: 1
-        }).set('Content-type', 'application/json')
+        const response = await request.delete("/products/1").set('Content-type', 'application/json')
         expect(response.status).toEqual(200)
     })
 })

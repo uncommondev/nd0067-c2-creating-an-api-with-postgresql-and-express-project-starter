@@ -3,62 +3,61 @@ import app from "../../server"
 
 const request = supertest(app);
 
-// app.get('/users', index)
-// app.get('/users/:id', show)
-// app.post('/users', create)
-// app.put('/users', update)
-// app.post('/order/:id/products', addProduct)
-// app.delete('/users', destroy)
+describe("User Handler Tests", () => {
+    // DELETE
+    xit("Should delete the user", async () => {
+        const response = await request.delete("/users").send({
+            "id": 2
+        }).set('Content-type', 'application/json')
+        expect(response.status).toEqual(200)
+    })    
 
-xdescribe("User Handler Tests", () => {
     // CREATE - Moved to orderSpec.ts
-    xit("Should creates a new order", async () => {
+    it("Should creates a new user", async () => {
         const response = await request.post("/users").send({
-            firstname: "Tim",
-            lastname: "Apple",
-            password: "iPhone123",
-        })
+            "firstname": "William",
+            "lastname": "Gates",
+            "password": "Windows123",
+        }).set('Content-type', 'application/json')
         expect(response.status).toEqual(200)
     })
     
     // INDEX
     it("Should list all users", async () => {
-        const response = await request.get("/users")
-        expect(response.body).toEqual({
-            id: 1,
-            firstname: "Tim",
-            lastname: "Apple",
-            password: "iPhone123",
+        const response = await request.get("/users").set('Content-type', 'application/json')
+        expect(response.body[0]).toEqual({
+            "id": 2,
+            "firstname": "William",
+            "lastname": "Gates",
+            "password": "Windows123",
         })
     })
 
     // SHOW
-    it("Should show an order with the ID of 1", async () => {
-        const response = await request.get("/users/1")
+    it("Should show an user with the ID of 1", async () => {
+        const response = await request.get("/users/2").set('Content-type', 'application/json')
         expect(response.body).toEqual({
-            id: 1,
-            firstname: "Tim",
-            lastname: "Apple",
-            password: "iPhone123",
+            "id": 2,
+            "firstname": "William",
+            "lastname": "Gates",
+            "password": "Windows123",
         })
     })
     
     // UPDATE
-    it("Should update the order", async () => {
-        const response = await request.post("/users").send({
-            id: 1,
-            firstname: "Tim",
-            lastname: "Apple",
-            password: "iPhone123",
-        })
+    it("Should update the user", async () => {
+        const response = await request.put("/users").send({
+            "id": 2,
+            "firstname": "William",
+            "lastname": "Gates",
+            "password": "Windows123",
+        }).set('Content-type', 'application/json')
         expect(response.status).toEqual(200)
     })
 
     // DELETE
-    it("Should delete the order", async () => {
-        const response = await request.delete("/users").send({
-            id: 1
-        })
+    it("Should delete the user", async () => {
+        const response = await request.delete("/users/2").set('Content-type', 'application/json')
         expect(response.status).toEqual(200)
     })
 })

@@ -93,8 +93,14 @@ const update = async (req: Request, res: Response) => {
 }
 
 const destroy = async (req: Request, res: Response) => {
-    const deleted = await store.delete(req.body.id)
-    res.json(deleted)
+    try {
+        const deleted = await store.delete(req.params.id)
+        res.status(200)
+        res.json(deleted)
+    } catch(error) {
+        res.status(400)
+        res.json(error)
+    }
 }
 
 const orderRoutes = (app: express.Application) => {
@@ -105,7 +111,7 @@ const orderRoutes = (app: express.Application) => {
     app.post('/order/:id/products', addProduct)
     app.get('/order/products', indexProduct)
     app.delete('/order/:id/products', deleteProduct)
-    app.delete('/orders', destroy)
+    app.delete('/orders/:id', destroy)
 }
 
 export default orderRoutes
