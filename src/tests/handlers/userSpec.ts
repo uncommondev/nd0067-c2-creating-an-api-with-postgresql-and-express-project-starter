@@ -3,7 +3,7 @@ import app from "../../server"
 
 const request = supertest(app);
 
-describe("User Handler Tests", () => {
+xdescribe("User Handler Tests", () => {
     // DELETE
     xit("Should delete the user", async () => {
         const response = await request.delete("/users").send({

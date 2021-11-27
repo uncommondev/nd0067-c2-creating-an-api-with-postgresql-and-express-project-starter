@@ -3,7 +3,7 @@ import app from "../../server"
 
 const request = supertest(app);
 
-describe("Order Handler Tests", () => {
+xdescribe("Order Handler Tests", () => {
     // CREATE
     // Create a user - foreign key dependency for the order
     it("Should creates a new user", async () => {

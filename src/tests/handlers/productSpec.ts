@@ -3,7 +3,7 @@ import app from "../../server"
 
 const request = supertest(app);
 
-describe("Product Handler Tests", () => {
+xdescribe("Product Handler Tests", () => {
     // CREATE - Moved to orderSpec.ts
     it("Should creates a new product", async () => {
         const response = await request.post("/products").send({
