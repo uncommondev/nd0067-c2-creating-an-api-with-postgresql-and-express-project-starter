@@ -1,4 +1,5 @@
 import client from "../database"
+import bcrypt from "bcrypt"
 
 export type User = {
     //id: number;
@@ -33,12 +34,36 @@ export class UserStore {
         }
     }
 
+    async authenticate(id: string, password: string): Promise<User | null> {
+        try{
+            const sql = 'SELECT * FROM users WHERE id=($1)'
+            const conn = await client.connect()
+            const result = await conn.query(sql, [id])
+            conn.release()
+            console.log(result)
+            result.rows[0]
+            if(result.rows.length) {
+                const user = result.rows[0]
+                console.log(user)
+                if(bcrypt.compareSync(password + process.env.BCRYPT_PASSWORD, user.password)){
+                    return user
+                }
+            }
+            return null
+        } catch(error) {
+            throw new Error(`Could not find the User${Error}`)
+        }
+    }
+
     async create(u: User): Promise<User> {
         try{
             const sql = 'INSERT INTO users (firstname, lastname, password) VALUES($1, $2, $3) RETURNING *'
             // @ts-ignore
             const conn = await client.connect()
-            const result = await conn.query(sql, [u.firstname, u.lastname, u.password])
+            const hash = bcrypt.hashSync(
+                u.password + process.env.BCRYPT_PASSWORD, parseInt(process.env.SALT_ROUNDS as string)
+            )
+            const result = await conn.query(sql, [u.firstname, u.lastname, hash])
             const user = result.rows[0]
             conn.release()
             return user

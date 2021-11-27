@@ -11,7 +11,8 @@ POSTGRES_USER,
 POSTGRES_TEST_USER,
 POSTGRES_PASSWORD,
 POSTGRES_TEST_PASSWORD,
-ENV
+ENV,
+TOKEN_SECRET
 } = process.env
 
 // "test": "ENV=test && db-migrate --en~v test reset && db-migrate --env test up && jasmine-ts && db-migrate --env test reset",

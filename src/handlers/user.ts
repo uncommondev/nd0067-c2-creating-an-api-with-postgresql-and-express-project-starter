@@ -1,5 +1,6 @@
 import { User, UserStore } from './../models/user';
 import express, {Request, Response} from "express";
+import jwt from "jsonwebtoken"
 
 const store = new UserStore()
 
@@ -36,7 +37,8 @@ const create = async (req: Request, res: Response) => {
             password: req.body.password
         }
         const newUser = await store.create(user)
-        res.json(newUser)
+        var token = jwt.sign({user: newUser}, process.env.TOKEN_SECRET as string)
+        res.json(token)
     } catch (error) {
         res.status(400)
         res.json(error)
@@ -60,6 +62,19 @@ const update = async (req: Request, res: Response) => {
     }
 }
 
+const auth = async (req: Request, res: Response) => {
+    try {
+        const id = req.body.id
+        const password = req.body.password
+        const authenticateUser = await store.authenticate(id, password)
+        res.status(200)
+        res.json(authenticateUser)
+    } catch(error) {
+        res.status(400)
+        res.json(error)
+    }
+}
+
 const destroy = async (req: Request, res: Response) => {
     try {
         const deleted = await store.delete(req.params.id)
@@ -76,6 +91,7 @@ const userRoutes = (app: express.Application) => {
     app.get('/users/:id', show)
     app.post('/users', create)
     app.put('/users', update)
+    app.post('/users/auth', auth)
     app.delete('/users/:id', destroy)
 }
 
