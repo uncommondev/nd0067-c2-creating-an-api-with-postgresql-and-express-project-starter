@@ -34,22 +34,20 @@ export class UserStore {
         }
     }
 
-    async authenticate(id: string, password: string): Promise<User | null> {
+    async authenticate(id: string, password: string): Promise<boolean> {
         try{
             const sql = 'SELECT * FROM users WHERE id=($1)'
             const conn = await client.connect()
             const result = await conn.query(sql, [id])
             conn.release()
-            console.log(result)
             result.rows[0]
             if(result.rows.length) {
                 const user = result.rows[0]
-                console.log(user)
                 if(bcrypt.compareSync(password + process.env.BCRYPT_PASSWORD, user.password)){
-                    return user
+                    return true
                 }
             }
-            return null
+            return false
         } catch(error) {
             throw new Error(`Could not find the User${Error}`)
         }

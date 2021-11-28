@@ -66,9 +66,9 @@ const auth = async (req: Request, res: Response) => {
     try {
         const id = req.body.id
         const password = req.body.password
-        const authenticateUser = await store.authenticate(id, password)
-        res.status(200)
-        res.json(authenticateUser)
+        const authStatus = await store.authenticate(id, password)
+        console.log(`authStatus: ${authStatus}`)
+        authStatus ? res.sendStatus(200) : res.sendStatus(401)
     } catch(error) {
         res.status(400)
         res.json(error)

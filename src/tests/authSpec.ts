@@ -28,23 +28,13 @@ describe("Authentication Tests", () => {
     })
     it("Should authenticate a user (MODEL)", async () => {
             const result = await store.authenticate("1", "Windows123");
-            expect(result).toEqual({
-                // @ts-ignore
-                "id": "1",
-                "password": "Windows123"
-            });
+            expect(result).toEqual(true);
     })
     it("Should authenticate a user (HANDLER)", async () => {
         const response = await request.post("/users/auth").send({
             "id": "1",
             "password": "Windows123"
         }).set('Content-type', 'application/json')
-        expect(response.status).toEqual({
-            // @ts-ignore
-            "id": "1",
-            "firstname": "William",
-            "lastname": "Gates",
-            "password": "Windows123",
-        })
+        expect(response.status).toEqual(200)
     })
 })
