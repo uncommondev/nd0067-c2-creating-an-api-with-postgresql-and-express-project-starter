@@ -1,22 +1,13 @@
+import { Response } from "express";
 import supertest from "supertest";
+import checkAuthorisation from "../checkAuthorisation";
 import { UserStore } from "../models/user";
 import app from "../server"
 
 const request = supertest(app);
 const store = new UserStore()
 
-// Plan of action --> 
-
-// IDEA --> Use the ID as the login variable
-// Check the usermmodel for what we'll be working with (could cheat like the banks and use the last name as the username or firstname+password) 
-// Create a variable that we can export with the JWT (console.log it)
-// Create the unit tests to make sure it runs
-
-// CREATE USER -->
-
-// AUTHENTICATE -->
-
-// Create a user, this returns the JWT (like a cookie) --> Authenticate checks the password (shouldn't that create a JWT?) --> Function in place to check the JWT is valid
+let test_jwt = ""
 describe("Authentication Tests", () => {
     it("Should creates a new user", async () => {
         const response = await request.post("/users").send({
@@ -24,6 +15,9 @@ describe("Authentication Tests", () => {
             "lastname": "Gates",
             "password": "Windows123",
         }).set('Content-type', 'application/json')
+        test_jwt = response.body
+        console.log(`Test JWT`)
+        console.log(test_jwt)
         expect(response.status).toEqual(200)
     })
     it("Should authenticate a user (MODEL)", async () => {
@@ -36,5 +30,9 @@ describe("Authentication Tests", () => {
             "password": "Windows123"
         }).set('Content-type', 'application/json')
         expect(response.status).toEqual(200)
+    })
+    it("Should verify the JWT is valid", async () => {
+        const result = await checkAuthorisation(test_jwt)
+        expect(result).not.toThrowError
     })
 })

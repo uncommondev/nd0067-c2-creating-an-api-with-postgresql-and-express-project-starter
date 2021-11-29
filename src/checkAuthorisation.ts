@@ -1,13 +1,11 @@
-import jwt from "jsonwebtoken"
-import { Response } from "express"
+import jwt, { JwtPayload } from "jsonwebtoken"
 
-const checkAuthorisation = (token: string, res: Response) => {
+const checkAuthorisation = (token: string): string | JwtPayload => {
     try {
-        jwt.verify(token, process.env.TOKEN_SECRET as string)
+        return jwt.verify(token, process.env.TOKEN_SECRET as string)
     } catch(error) {
-        res.status(401)
-        res.json(`Invalid Token ${error}`)
-        return
+        console.log(`There was an error ${error}`)
+        return "Error"
     }
 }
 
