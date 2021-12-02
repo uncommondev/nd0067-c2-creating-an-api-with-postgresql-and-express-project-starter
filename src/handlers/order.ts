@@ -1,5 +1,6 @@
 import express, {Request, Response} from "express";
 import { Order, OrderProduct, OrderStore } from "../models/order";
+import jwt from "jsonwebtoken"
 
 const store = new OrderStore()
 
@@ -14,6 +15,15 @@ const index = async (req: Request, res: Response) => {
 }
 
 const show = async (req: Request, res: Response) => {
+    try {
+        const authHeader = req.headers.authorization as string
+        const token = authHeader.split(' ')[1]
+        jwt.verify(token, process.env.TOKEN_SECRET as string)
+    } catch(err) {
+        res.status(401)
+        res.json('Access denied, invalid token')
+        return
+    }  
     try {
         const orders = await store.show(req.params.id)
         res.json(orders)

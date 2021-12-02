@@ -1,5 +1,6 @@
 import { Product, ProductStore } from './../models/product';
 import express, {Request, Response} from "express";
+import jwt from "jsonwebtoken"
 
 const store = new ProductStore()
 
@@ -28,6 +29,15 @@ const show = async (req: Request, res: Response) => {
 }
 
 const create = async (req: Request, res: Response) => {
+    try {
+        const authHeader = req.headers.authorization as string
+        const token = authHeader.split(' ')[1]
+        jwt.verify(token, process.env.TOKEN_SECRET as string)
+    } catch(err) {
+        res.status(401)
+        res.json('Access denied, invalid token')
+        return
+    }    
     try {
         const product: Product = {
             name: req.body.name,
