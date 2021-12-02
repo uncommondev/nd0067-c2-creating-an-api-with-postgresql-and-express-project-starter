@@ -10,4 +10,3 @@ const checkAuthorisation = (token: string): string | JwtPayload => {
 }
 
 export default checkAuthorisation
-
