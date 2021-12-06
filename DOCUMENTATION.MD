@@ -38,25 +38,15 @@ A crucial file for the backend is the .env file. You will need to add your detai
 
 You will need to add this file to the root directory of the project and add/replace the details as required (host, password, etc).
 
-
-
 The next step is to pull in all required dependencies with this command: `npm install`
 
 ##PostgresSQL Setup
 
-
-
 For the local backend SQL server, Docker Compose is used to provide a PostgreSQL server.
-
-
 
 Inside the directory run: `docker-compose up`
 
-
-
 This will start the PostgreSQL instance.
-
-
 
 To stop it, either type `docker-compose down` or use: `ctrl+c`
 
@@ -146,6 +136,44 @@ The structure of the project is straightforward with a few key files and folders
 -`npm run lint` - Formats the files and checks with ESLint and Prettier
 -`npm run tsc`- Compiles the TypeScript
 -`npm run start` - Starts a local server running on port 3000 for you to run queries against the endpoints
+
+# Restful Endpoints
+
+## Orders
+
+ - `GET` /orders --> Returns list of all orders
+ - `GET` /orders:id --> Returns specific order by ID
+ - `POST` /orders --> Creates a new order
+ - `PUT` /orders --> Updates an order
+ - `POST` /order/:id/products --> Used for adding products to an order
+ - `GET` /order/products --> Returns order_products table
+ - `DELETE` /order/:id/products --> Deletes products from an order 
+ - `DELETE` /orders/:id --> Deletes an order
+
+ ## Products
+
+ - `GET` /products --> Returns all products
+ - `GET` /products/:id --> Returns product by specific ID
+ - `POST` /products --> Creates a new product
+ - `PUT` /products --> Updates a product
+ - `DELETE` /products --> Deletes a product by ID
+
+## Users
+
+ - `GET` /users --> Returns all users
+ - `GET` /users/:id --> Returns user by specific ID
+ - `POST` /users --> Creates a new user
+ - `PUT` /users --> Updates a user
+ - `POST` /users/auth --> Authenticates a user
+ - `DELETE` /users --> Deletes a user by ID
+
+ # Database Schema
+
+ A picture says a thousand words. Below is an image of the database schema. To modify it, please edit the database migrations
+
+![Database Schema](db_schema.png)
+
+The schema was created with: [dbdiagram.io](https://dbdiagram.io/)
 
 # Postman Testing
 
