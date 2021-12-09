@@ -7,8 +7,8 @@
     "start": "node dist/server.js",
     "lint": "prettier --write ./src/** && eslint ./src/**",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess 'node ./dist/server.js'",
-    "test": "ENV=test && db-migrate --en~v test reset && db-migrate --env test up && jasmine-ts && db-migrate --env test reset",
-    "test-dev": "ENV=dev && db-migrate --env dev reset && db-migrate --env dev up && jasmine-ts && db-migrate --env dev reset",
+    "test": "db-migrate --env test reset && db-migrate --env test up && jasmine-ts && db-migrate --env test reset",
+    "test-dev": "db-migrate --env dev reset && db-migrate --env dev up && jasmine-ts && db-migrate --env dev reset",
     "tsc": "tsc"
   },
   "author": "Toby A",
