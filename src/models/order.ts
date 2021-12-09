@@ -1,13 +1,13 @@
 import client from "../database";
 
 export type Order = {
-  //id: number,
+  id?: number;
   user_id: number;
   status: boolean;
 };
 
 export type OrderProduct = {
-  //id: number,
+  id?: number;
   quantity: number;
   order_id: number;
   product_id: number;
