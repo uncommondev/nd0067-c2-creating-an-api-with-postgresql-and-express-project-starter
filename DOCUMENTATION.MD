@@ -178,3 +178,7 @@ The schema was created with: [dbdiagram.io](https://dbdiagram.io/)
 # Postman Testing
 
 To help you further with testing, here is a link to a collection of endpoint tests that you can use with your development: [Postman Collection](https://go.postman.co/workspace/My-Workspace~964c436f-4ff5-473a-83eb-d19b0916e567/collection/17944040-1dcbb585-c58d-4c75-9efd-865d3685578e)
+
+## JWT For Testing
+
+When running the test command `npm run test`, a JWT is created and passed to the handler tests but it is also logged to the console when the tests begin and can be used for independently testing with Postman
