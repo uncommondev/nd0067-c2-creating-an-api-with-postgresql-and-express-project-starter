@@ -95,7 +95,6 @@ const auth = async (req: Request, res: Response) => {
     const id = req.body.id;
     const password = req.body.password;
     const authStatus = await store.authenticate(id, password);
-    console.log(`authStatus: ${authStatus}`);
     authStatus ? res.sendStatus(200) : res.sendStatus(401);
   } catch (error) {
     res.status(400);
