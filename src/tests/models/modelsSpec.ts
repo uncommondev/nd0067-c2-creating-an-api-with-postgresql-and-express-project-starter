@@ -2,30 +2,9 @@ import { UserStore } from "./../../models/user";
 import { ProductStore } from "./../../models/product";
 import { OrderStore } from "./../../models/order";
 
-// For test JWT
-import { User } from "./../../models/user";
-import jwt from "jsonwebtoken";
-
 const oStore = new OrderStore();
 const pStore = new ProductStore();
 const uStore = new UserStore();
-
-let test_jwt = "";
-
-beforeAll(async () => {
-  // CREATE TEST JWT -->
-  const user: User = {
-    firstname: "Mark",
-    lastname: "Corrigan",
-    password: "LondonBritish2000",
-  };
-  const newUser = await uStore.create(user);
-  const token = jwt.sign({ user: newUser }, process.env.TOKEN_SECRET as string);
-  console.log(token);
-  test_jwt = token;
-});
-
-export default test_jwt;
 
 describe("Check the MODEL CRUD functions for User, Product and Order Models", () => {
   describe("CREATE", () => {
@@ -48,21 +27,27 @@ describe("Check the MODEL CRUD functions for User, Product and Order Models", ()
     });
     it("Create method should add a order", async () => {
       const result = await oStore.create({
-        user_id: 3,
+        user_id: 2,
         status: true,
       });
-      expect(result.user_id).toEqual(3);
+      expect(result.user_id).toEqual(2);
       expect(result.status).toEqual(true);
     });
     it("Add a product to and order", async () => {
       const result = await oStore.addProduct({
         quantity: 50,
         order_id: 2,
-        product_id: 3,
+        product_id: 2,
       });
       expect(result.quantity).toEqual(50);
       expect(result.order_id).toEqual(2);
-      expect(result.product_id).toEqual(3);
+      expect(result.product_id).toEqual(2);
+    });
+  });
+  describe("AUTH", () => {
+    it("Should authenticate a user (MODEL)", async () => {
+      const result = await uStore.authenticate("2", "Password123");
+      expect(result).toEqual(true);
     });
   });
   describe("INDEX", () => {
@@ -81,18 +66,18 @@ describe("Check the MODEL CRUD functions for User, Product and Order Models", ()
 
     describe("SHOW", () => {
       it("Show method should return the correct user", async () => {
-        const result = await uStore.show("5");
+        const result = await uStore.show("2");
         expect(result.firstname).toEqual("John");
         expect(result.lastname).toEqual("Smith");
       });
       it("Show method should return the correct product", async () => {
-        const result = await pStore.show("3");
+        const result = await pStore.show("2");
         expect(result.name).toEqual("Apprenticeship Patterns");
         expect(result.price).toEqual(19.99);
       });
       it("Show method should return the correct order", async () => {
         const result = await oStore.show("2");
-        expect(result.user_id).toEqual(3);
+        expect(result.user_id).toEqual(2);
         expect(result.status).toEqual(true);
       });
     });
@@ -100,7 +85,7 @@ describe("Check the MODEL CRUD functions for User, Product and Order Models", ()
       it("Update the order", async () => {
         await oStore.update(
           {
-            user_id: 3,
+            user_id: 2,
             status: false,
           },
           "2"
@@ -114,9 +99,9 @@ describe("Check the MODEL CRUD functions for User, Product and Order Models", ()
             name: "Apprenticeship Patterns",
             price: 15.99,
           },
-          "3"
+          "2"
         );
-        const result = await pStore.show("3");
+        const result = await pStore.show("2");
         expect(result.price).toEqual(15.99);
       });
       it("Update the user", async () => {
@@ -126,9 +111,9 @@ describe("Check the MODEL CRUD functions for User, Product and Order Models", ()
             lastname: "Smith",
             password: "123Password",
           },
-          "5"
+          "2"
         );
-        const result = await uStore.show("5");
+        const result = await uStore.show("2");
         expect(result.firstname).toEqual("Johnathan");
         expect(result.lastname).toEqual("Smith");
       });
@@ -152,14 +137,14 @@ describe("Check the MODEL CRUD functions for User, Product and Order Models", ()
         // The delete method returns the deleted "user"
         // We can confirm it's deleted by checking the values it returns
 
-        const result = await uStore.delete("5");
+        const result = await uStore.delete("2");
         expect(result.firstname).toEqual("Johnathan");
         expect(result.lastname).toEqual("Smith");
       });
 
       it("Delete method should remove the product", async () => {
         await pStore.delete("1");
-        const result = await pStore.show("3");
+        const result = await pStore.show("2");
         expect(result).toThrowError;
       });
     });
