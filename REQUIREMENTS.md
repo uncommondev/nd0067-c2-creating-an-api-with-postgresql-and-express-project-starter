@@ -82,3 +82,28 @@ When running the test command `npm run test`, a JWT is created and passed to the
 ![Database Schema](db_schema.png)
 
 The schema was created with: [dbdiagram.io](https://dbdiagram.io/)
+
+## Data Shapes
+
+## Data Shapes
+
+### Product
+
+- id 
+- name 
+- price 
+
+### User
+
+- id
+- firstname
+- lastname
+- password
+
+### Orders
+
+- id
+- user_id
+- status
+- product_id
+- quantity
