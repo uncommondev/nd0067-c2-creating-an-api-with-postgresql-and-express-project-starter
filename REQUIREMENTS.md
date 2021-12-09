@@ -85,8 +85,6 @@ The schema was created with: [dbdiagram.io](https://dbdiagram.io/)
 
 ## Data Shapes
 
-## Data Shapes
-
 ### Product
 
 - id 
